@@ -2,26 +2,7 @@
   "name": "Keychron K8 Pro",
   "vendorId": "0x3434",
   "productId": "0x0280",
-  "lighting": {
-  "extends": "qmk_rgblight",
-  "keycodes": "qmk",
-  "underglowEffects": [
-      ["None", 0],
-      ["SOLID_COLOR", 1],
-      ["BREATHING", 1],
-      ["CYCLE_ALL", 1],
-      ["CYCLE_LEFT_RIGHT", 1],
-      ["CYCLE_UP_DOWN", 1],
-      ["RAINBOW_MOVING_CHEVRON", 1],
-      ["CYCLE_OUT_IN", 1],
-      ["CYCLE_OUT_IN_DUAL", 1],
-      ["CYCLE_PINWHEEL", 1],
-      ["CYCKE_SPIRAL", 1],
-      ["DUAL_BEACON", 1],
-      ["RAINBOW_BEACON", 1],
-      ["RAINDROPS", 1]
-    ]
-  },
+  "lighting": "vialrgb",
   "customKeycodes": [
     {"name": "Left Option", "title": "Left Option", "shortName": "Left Option"},
     {"name": "Right Option", "title": "Right Option", "shortName": "Right Option"},
