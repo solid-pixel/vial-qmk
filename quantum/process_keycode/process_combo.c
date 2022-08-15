@@ -19,6 +19,13 @@
 #include "action_tapping.h"
 #include "action.h"
 
+#ifdef VIAL_COMBO_ENABLE
+#include "dynamic_keymap.h"
+/* dynamic combos are stored entirely in ram */
+#undef pgm_read_word
+#define pgm_read_word(address_short) *((uint16_t*)(address_short))
+#endif
+
 #ifdef COMBO_COUNT
 __attribute__((weak)) combo_t key_combos[COMBO_COUNT];
 uint16_t                      COMBO_LEN = COMBO_COUNT;
@@ -257,8 +264,8 @@ static inline void dump_key_buffer(void) {
 static inline void _find_key_index_and_count(const uint16_t *keys, uint16_t keycode, uint16_t *key_index, uint8_t *key_count) {
     while (true) {
         uint16_t key = pgm_read_word(&keys[*key_count]);
-        if (keycode == key) *key_index = *key_count;
         if (COMBO_END == key) break;
+        if (keycode == key) *key_index = *key_count;
         (*key_count)++;
     }
 }

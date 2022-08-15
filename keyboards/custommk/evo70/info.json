@@ -15,12 +15,16 @@
         "rows": ["D3", "D2", "F7", "F6", "F5", "F0"]
 
     },
+<<<<<<< HEAD
     "debounce": 5,
+=======
+>>>>>>> vial-pelly/vial
     "processor": "atmega32u4",
     "rgblight": {
         "led_count": 48,
         "pin": "B2",
         "hue_steps": 4,
+<<<<<<< HEAD
         "saturation_steps": 8,
         "brightness_steps": 4,
         "animations": {
@@ -29,6 +33,12 @@
     },
     "layouts": {
         "LAYOUT": {
+=======
+        "saturation_steps": 8
+    },
+    "layouts": {
+        "LAYOUT_default": {
+>>>>>>> vial-pelly/vial
             "layout": [
                 {"label":"KC_ESC", "x":2.5, "y":1.1},
                 {"label":"KC_1", "x":3.5, "y":1.1},
@@ -108,4 +118,8 @@
                 {"label":"KC_RGHT", "x":17.5, "y":5.1}]
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> vial-pelly/vial

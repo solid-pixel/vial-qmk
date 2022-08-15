@@ -15,6 +15,16 @@
  */
 #include "config_common.h"
 
+<<<<<<< HEAD
+=======
+/* USB Device descriptor parameter */
+#define VENDOR_ID       0x0483
+#define PRODUCT_ID      0xA372
+#define DEVICE_VER      0x0002
+#define MANUFACTURER    Geekboards
+#define PRODUCT         Macropad v2
+
+>>>>>>> vial-pelly/vial
 /* key matrix size */
 #define MATRIX_ROWS 2
 #define MATRIX_COLS 4

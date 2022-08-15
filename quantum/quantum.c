@@ -15,6 +15,8 @@
  */
 
 #include "quantum.h"
+#include "magic.h"
+#include "qmk_settings.h"
 
 #ifdef BLUETOOTH_ENABLE
 #    include "outputselect.h"
@@ -34,6 +36,10 @@
 
 #ifdef HAPTIC_ENABLE
 #    include "haptic.h"
+#endif
+
+#ifdef VIAL_ENABLE
+#    include "vial.h"
 #endif
 
 #ifdef AUDIO_ENABLE
@@ -96,9 +102,9 @@ __attribute__((weak)) void unregister_code16(uint16_t code) {
 __attribute__((weak)) void tap_code16(uint16_t code) {
     register_code16(code);
     if (code == KC_CAPS_LOCK) {
-        wait_ms(TAP_HOLD_CAPS_DELAY);
+        qs_wait_ms(QS_tap_hold_caps_delay);
     } else if (TAP_CODE_DELAY > 0) {
-        wait_ms(TAP_CODE_DELAY);
+        qs_wait_ms(QS_tap_code_delay);
     }
     unregister_code16(code);
 }
@@ -207,12 +213,14 @@ void post_process_record_quantum(keyrecord_t *record) {
     post_process_record_kb(keycode, record);
 }
 
+bool process_record_quantum(keyrecord_t *record) {
+    uint16_t keycode = get_record_keycode(record, true);
+    return process_record_quantum_helper(keycode, record);
+}
 /* Core keycode function, hands off handling to other functions,
     then processes internal quantum keycodes, and then processes
     ACTIONs.                                                      */
-bool process_record_quantum(keyrecord_t *record) {
-    uint16_t keycode = get_record_keycode(record, true);
-
+bool process_record_quantum_helper(uint16_t keycode, keyrecord_t *record) {
     // This is how you use actions here
     // if (keycode == KC_LEAD) {
     //   action_t action;
@@ -260,6 +268,9 @@ bool process_record_quantum(keyrecord_t *record) {
 #endif
 #if defined(VIA_ENABLE)
             process_record_via(keycode, record) &&
+#endif
+#if defined(VIAL_ENABLE)
+            process_record_vial(keycode, record) &&
 #endif
             process_record_kb(keycode, record) &&
 #if defined(SECURE_ENABLE)

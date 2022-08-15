@@ -19,11 +19,14 @@
 #include "matrix.h"
 #include OLED_FONT_H
 
+<<<<<<< HEAD
 //If Bongo cat not undefined, Scroll wheel will be enabled,
 //but for scroll wheel to work, you must also set MOUSEKEY_ENABLE = yes
 //in rules.mk 
 #define BONGOCAT
 
+=======
+>>>>>>> vial-pelly/vial
 /* Placement information for display elements */
 #define ENC_DISPLAY_X 0
 #define ENC_DISPLAY_Y 0
@@ -49,6 +52,7 @@ static bool starting_up = false;
 
 #define ENC_SPLASH 0
 #define ENC_VOLUME 1
+<<<<<<< HEAD
 #define ENC_MEDIA 2
 #define ENC_CUSTOM 3
 #define ENC_BL_BRIGHT 4
@@ -61,10 +65,19 @@ static bool starting_up = false;
 #define ENC_BONGO 9
 #endif //bongocat
 
+=======
+#define ENC_RGB_MODE 2
+#define ENC_RGB_COLOR 3
+#define ENC_RGB_BRIGHT 4
+#define ENC_BL_BRIGHT 5
+#define ENC_CUSTOM 6
+#define ENC_BONGO 7
+>>>>>>> vial-pelly/vial
 
 extern matrix_row_t matrix[MATRIX_ROWS];
 
 char* enc_mode_str[] = {
+<<<<<<< HEAD
 #ifdef BONGOCAT
     /* Splash */ "", \
     "Volume", \
@@ -100,6 +113,24 @@ uint16_t enc_ccw[] = { KC_VOLD, KC_VOLD, KC_MEDIA_PREV_TRACK, KC_VOLD, 0, 0, 0, 
 uint8_t num_enc_modes = 10;
 
 uint8_t enc_mode_str_startpos[] = {0, 49, 28, 49, 7, 10, 7, 25, 22, 31};
+=======
+    /* Splash */ "", \
+    "Volume", \
+    "Underglow Mode", \
+    "Underglow Color", \
+    "Underglow Brightness", \
+    "Backlight Brightness", \
+    "Custom",
+    /* Bongo Cat */ "", \
+};
+
+uint16_t enc_cw[] =  { 0, KC_VOLU, 0, 0, 0, 0, 0, 0 };
+uint16_t enc_ccw[] = { 0, KC_VOLD, 0, 0, 0, 0, 0, 0 };
+
+uint8_t num_enc_modes = 8;
+
+uint8_t enc_mode_str_startpos[] = {0, 49, 25, 22, 7, 7, 49, 31};
+>>>>>>> vial-pelly/vial
 
 uint8_t prev_layer = 255;
 uint8_t prev_capslock = 255;
@@ -107,9 +138,15 @@ uint8_t prev_numlock = 255;
 
 typedef union {
     uint32_t raw;
+<<<<<<< HEAD
     struct {
         uint8_t enc_mode;
         uint8_t breathingperiod;
+=======
+
+    struct {
+        uint8_t enc_mode;
+>>>>>>> vial-pelly/vial
         bool oled_is_on : 1;
     };
 } user_config_t;
@@ -117,7 +154,10 @@ typedef union {
 user_config_t user_config;
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> vial-pelly/vial
 /* OLED Draw Functions */
 /* TODO: Reimplement using Quantum Painter when available  */
 
@@ -150,9 +190,16 @@ void draw_rect_soft(uint8_t x, uint8_t y, uint8_t width, uint8_t height, bool on
 void write_char_at_pixel_xy(uint8_t x, uint8_t y, const char data, bool invert) {
     uint8_t i, j, temp;
     uint8_t cast_data = (uint8_t)data;
+<<<<<<< HEAD
     
     const uint8_t *glyph = &font[((uint8_t)cast_data - OLED_FONT_START) * OLED_FONT_WIDTH];
     temp = pgm_read_byte(glyph);
+=======
+
+    const uint8_t *glyph = &font[((uint8_t)cast_data - OLED_FONT_START) * OLED_FONT_WIDTH];
+    temp = pgm_read_byte(glyph);
+
+>>>>>>> vial-pelly/vial
     for (i = 0; i < OLED_FONT_WIDTH ; i++) {
         for (j = 0; j < OLED_FONT_HEIGHT; j++) {
             if (temp & 0x01) {
@@ -160,8 +207,15 @@ void write_char_at_pixel_xy(uint8_t x, uint8_t y, const char data, bool invert) 
             } else {
                 oled_write_pixel(x + i, y + j, invert);
             }
+<<<<<<< HEAD
             temp >>= 1;
         }
+=======
+
+            temp >>= 1;
+        }
+
+>>>>>>> vial-pelly/vial
         temp = pgm_read_byte(++glyph);
     }
 }
@@ -249,9 +303,12 @@ uint16_t startup_timer = 0;
 bool redrawn_splash = false;
 
 
+<<<<<<< HEAD
 #ifdef BONGOCAT
 
 
+=======
+>>>>>>> vial-pelly/vial
 #define ANIM_FRAME_DURATION 75
 #define IDLE_FRAMES 5
 #define IDLE_TIMEOUT 750
@@ -319,7 +376,11 @@ static const uint8_t bongofont[] PROGMEM = { \
     0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, \
     0x00, 0x00, 0x00, 0x00, 0x00, 0x03, \
     0x00, 0x00, 0x00, 0x00, 0x00, 0x01, \
+<<<<<<< HEAD
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; 
+=======
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+>>>>>>> vial-pelly/vial
 
 
 static const uint8_t bongo_line_x[] = {51, 49, 48, 57};
@@ -398,6 +459,10 @@ bool is_key_down(void) {
             return true;
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     return false;
 }
 
@@ -408,7 +473,11 @@ void eval_anim_state(void) {
     switch (anim_state) {
         case sleep:
             if(key_down) { anim_state = tap; }
+<<<<<<< HEAD
             break; 
+=======
+            break;
+>>>>>>> vial-pelly/vial
         case idle:
             if(key_down) { anim_state = tap; }
             else if (timer_elapsed32(idle_timeout_timer) >= SLEEP_TIMEOUT) //prep to idle
@@ -464,8 +533,11 @@ void draw_bongo_table(void) {
             j++;
         }
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> vial-pelly/vial
 }
 
 
@@ -474,6 +546,10 @@ void draw_bongocat_frame(int framenumber) {
     if (framenumber != last_bongo_frame) {
         last_bongo_frame = framenumber;
         uint8_t i, j, current_bongochar = 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
         for (i = 0; i < 4; i++) {
             for (j = 0; j < bongo_line_len[i]; j++) {
                 write_bongochar_at_pixel_xy(bongo_line_x[i] + j*6, bongo_line_y[i], pgm_read_byte(&bongo_line_data[framenumber][current_bongochar]), false);
@@ -481,32 +557,56 @@ void draw_bongocat_frame(int framenumber) {
             }
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> vial-pelly/vial
 }
 
 bool is_new_tap(void) {
     static matrix_row_t old_matrix[] = { 0, 0, 0, 0, 0, 0 };
     bool new_tap = false;
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     for (uint8_t i = 0; i < MATRIX_ROWS; i++) {
         if (matrix[i] > old_matrix[i]) { // more 1's detected, there was a new tap
             new_tap = true;
         }
         old_matrix[i] = matrix[i];
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     return new_tap;
 }
 
 void draw_bongocat(void) {
     static bool already_tapped = false;
+<<<<<<< HEAD
     if (is_new_tap()) {
         already_tapped = false;
     };
+=======
+
+    if (is_new_tap()) {
+        already_tapped = false;
+    };
+
+>>>>>>> vial-pelly/vial
     eval_anim_state();
     switch (anim_state) {
         case sleep:
             draw_bongocat_frame(4);
             break;
+<<<<<<< HEAD
         case idle:       
+=======
+        case idle:
+>>>>>>> vial-pelly/vial
             draw_bongocat_frame(4 - current_idle_frame);
             if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
                 current_idle_frame = (current_idle_frame + 1) % 5;
@@ -537,13 +637,20 @@ void draw_bongocat(void) {
     }
 }
 
+<<<<<<< HEAD
 #endif //BONGOCAT
+=======
+>>>>>>> vial-pelly/vial
 
 void draw_splash(void) {
     uint8_t i, j, k, temp;
     uint16_t count;
     count = 0;
     temp = pgm_read_byte(&splash[count]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     for (i = 0; i < 4 ; i++) {
         for (j = 0; j < 128; j++) {
             for (k = 0; k < 8; k++) {
@@ -552,9 +659,17 @@ void draw_splash(void) {
                 } else {
                     oled_write_pixel(j, (i * 8) + k, false);
                 }
+<<<<<<< HEAD
                 temp >>= 1;
                 
             }
+=======
+
+                temp >>= 1;
+
+            }
+
+>>>>>>> vial-pelly/vial
             temp = pgm_read_byte(&splash[++count]);
         }
     }
@@ -564,6 +679,10 @@ void draw_media_arrow(uint8_t x, uint8_t y, bool fwd) {
     draw_line_v(x, y, 7, true);
     draw_line_v(x+4, y, 7, true);
     draw_line_v(x+2, y+2, 3, true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     if (fwd) {
         draw_line_v(x+1, y+1, 5, true);
         oled_write_pixel(x+3, y+3, true);
@@ -575,10 +694,13 @@ void draw_media_arrow(uint8_t x, uint8_t y, bool fwd) {
 
 void draw_enc_mode(void){
     write_chars_at_pixel_xy(enc_mode_str_startpos[user_config.enc_mode], ENC_DISPLAY_Y + 2, enc_mode_str[user_config.enc_mode], false);
+<<<<<<< HEAD
     if (user_config.enc_mode == ENC_MEDIA) {
         draw_media_arrow(enc_mode_str_startpos[user_config.enc_mode] - 16, ENC_DISPLAY_Y + 2, false);
         draw_media_arrow(enc_mode_str_startpos[user_config.enc_mode] + 88, ENC_DISPLAY_Y + 2, true);
     }
+=======
+>>>>>>> vial-pelly/vial
 }
 
 void draw_keyboard_locks(void) {
@@ -592,6 +714,7 @@ void draw_keyboard_locks(void) {
 
 __attribute__((weak)) void set_custom_encoder_mode_user(bool custom_encoder_mode) {}
 
+<<<<<<< HEAD
 void update_custom_encoder_mode_user(void) {
 #ifdef BONGOCAT
     set_custom_encoder_mode_user((user_config.enc_mode == ENC_CUSTOM) || (user_config.enc_mode == ENC_SPLASH) || (user_config.enc_mode == ENC_BONGO));
@@ -599,31 +722,53 @@ void update_custom_encoder_mode_user(void) {
     set_custom_encoder_mode_user((user_config.enc_mode == ENC_CUSTOM) || (user_config.enc_mode == ENC_SPLASH));
 #endif
 }
+=======
+>>>>>>> vial-pelly/vial
 
 void update_kb_eeprom(void) {
     eeconfig_update_kb(user_config.raw);
 }
 
+<<<<<<< HEAD
 void update_breathing(void);
 void matrix_init_kb(void) {
 
+=======
+// void update_breathing(void);
+void matrix_init_kb(void) {
+>>>>>>> vial-pelly/vial
     user_config.raw = eeconfig_read_kb();
     if (user_config.enc_mode == 0xFF) { //EEPROM was cleared
         user_config.enc_mode = 0;
         user_config.oled_is_on = true;
+<<<<<<< HEAD
         user_config.breathingperiod = 1;
         update_kb_eeprom();
 
     }
     startup_delay = true;
     update_custom_encoder_mode_user();
+=======
+        update_kb_eeprom();
+
+    }
+
+    startup_delay = true;
+    set_custom_encoder_mode_user(user_config.enc_mode == ENC_CUSTOM || user_config.enc_mode == ENC_SPLASH || user_config.enc_mode == ENC_BONGO);
+>>>>>>> vial-pelly/vial
     matrix_init_user();
 }
 
 void handle_encoder_switch_process_record(keyrecord_t *record) {
+<<<<<<< HEAD
 
     static uint32_t encoder_press_timer = 0;
     if (record->event.pressed) {
+=======
+    static uint32_t encoder_press_timer = 0;
+
+    if (record -> event.pressed) {
+>>>>>>> vial-pelly/vial
         if (!user_config.oled_is_on) {
             oled_on();
             user_config.oled_is_on = true;
@@ -631,20 +776,33 @@ void handle_encoder_switch_process_record(keyrecord_t *record) {
             OLED_redraw = true;
             update_kb_eeprom();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
         encoder_press_timer = timer_read32();
     } else {
         if (OLED_awakened == true) {
             OLED_awakened = false;
         } else {
             if (timer_elapsed32(encoder_press_timer) < 300) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> vial-pelly/vial
                 if (get_mods() & MOD_MASK_SHIFT) {
                     user_config.enc_mode = (user_config.enc_mode + (num_enc_modes- 1)) % num_enc_modes;
                 } else {
                     user_config.enc_mode = (user_config.enc_mode + 1) % num_enc_modes;
                 }
+<<<<<<< HEAD
                 OLED_redraw = true;
                 update_custom_encoder_mode_user();
+=======
+
+                OLED_redraw = true;
+                set_custom_encoder_mode_user(user_config.enc_mode == ENC_CUSTOM || user_config.enc_mode == ENC_SPLASH || user_config.enc_mode == ENC_BONGO);
+>>>>>>> vial-pelly/vial
                 update_kb_eeprom();
             } else {
                 OLED_redraw = false;
@@ -658,6 +816,7 @@ void handle_encoder_switch_process_record(keyrecord_t *record) {
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+<<<<<<< HEAD
     if (record->event.key.row == ENCODER_MATRIX_ROW && record->event.key.col == ENCODER_MATRIX_COL){
         handle_encoder_switch_process_record(record);
     }
@@ -693,10 +852,21 @@ void backlight_breath_change(bool increase) { //increase period or decrease peri
             
         }
     }
+=======
+    if (record -> event.key.row == ENCODER_MATRIX_ROW && record->event.key.col == ENCODER_MATRIX_COL){
+        handle_encoder_switch_process_record(record);
+    }
+
+    return process_record_user(keycode, record);
+>>>>>>> vial-pelly/vial
 }
 
 bool encoder_update_kb(uint8_t index, bool clockwise) {
     if (!encoder_update_user(index, clockwise)) return false;
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     switch (user_config.enc_mode) {
         case ENC_RGB_MODE :
             if (clockwise) {
@@ -705,12 +875,26 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
                 rgblight_step_reverse();
             }
             break;
+<<<<<<< HEAD
+=======
+        case ENC_RGB_COLOR :
+            if (clockwise) {
+                rgblight_increase_hue();
+            } else {
+                rgblight_decrease_hue();
+            }
+            break;
+>>>>>>> vial-pelly/vial
         case ENC_RGB_BRIGHT :
             if (clockwise) {
                 rgblight_increase_val();
             } else {
                 rgblight_decrease_val();
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
             break;
         case ENC_BL_BRIGHT :
             if (clockwise) {
@@ -719,6 +903,7 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
                 backlight_decrease();
             }
             break;
+<<<<<<< HEAD
         case ENC_BL_BREATH :
             backlight_breath_change(clockwise);
             break;
@@ -729,6 +914,8 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
                 rgblight_decrease_hue();
             }
             break;
+=======
+>>>>>>> vial-pelly/vial
         default:
             if (clockwise) {
                 tap_code(enc_cw[user_config.enc_mode]);
@@ -736,6 +923,10 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
                 tap_code(enc_ccw[user_config.enc_mode]);
             }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     return true;
 }
 
@@ -744,12 +935,17 @@ void matrix_scan_kb(void) {
     matrix_scan_user();
     led_t current_led_state = host_keyboard_led_state();
     uint8_t current_layer = get_highest_layer(layer_state);
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     if (startup_delay) {
         startup_timer = timer_read();
         startup_delay = false;
         startup_complete = false;
         starting_up = true;
         OLED_redraw = false;
+<<<<<<< HEAD
     }
     else if (starting_up) {
         if (timer_elapsed(startup_timer) >= 200) {
@@ -761,19 +957,39 @@ void matrix_scan_kb(void) {
                 OLED_redraw = true;
             } else
             {
+=======
+    } else if (starting_up) {
+        if (timer_elapsed(startup_timer) >= 200) {
+            // update_breathing();
+            startup_complete = true;
+            starting_up = false;
+
+            if (user_config.oled_is_on) {
+                oled_on();
+                OLED_redraw = true;
+            } else {
+>>>>>>> vial-pelly/vial
                 oled_clear();
                 user_config.oled_is_on = false;
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
     if (startup_complete) {
         if (user_config.enc_mode == ENC_SPLASH) {
             if (user_config.oled_is_on && OLED_redraw) {
                 draw_splash();
             }
+<<<<<<< HEAD
         }
     #ifdef BONGOCAT
         else if (user_config.enc_mode == ENC_BONGO) {
+=======
+        } else if (user_config.enc_mode == ENC_BONGO) {
+>>>>>>> vial-pelly/vial
             if (user_config.oled_is_on) {
                 if (OLED_redraw) {
                     oled_clear();
@@ -781,6 +997,7 @@ void matrix_scan_kb(void) {
                     draw_bongo_table();
                     OLED_redraw = false;
                 }
+<<<<<<< HEAD
                 draw_bongocat();
 
             }
@@ -788,12 +1005,21 @@ void matrix_scan_kb(void) {
         }
     #endif //BONGOCAT
         else  {        
+=======
+
+                draw_bongocat();
+            }
+        } else {
+>>>>>>> vial-pelly/vial
             if (user_config.oled_is_on && (
                     OLED_redraw
                     || (prev_layer != current_layer)
                     || (prev_capslock != current_led_state.caps_lock)
                     || (prev_numlock != current_led_state.num_lock))) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> vial-pelly/vial
                 prev_layer = current_layer;
                 prev_capslock = current_led_state.caps_lock;
                 prev_numlock = current_led_state.num_lock;
@@ -804,6 +1030,10 @@ void matrix_scan_kb(void) {
                 draw_enc_mode();
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> vial-pelly/vial
         OLED_redraw = false;
     }
     

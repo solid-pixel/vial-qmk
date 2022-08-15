@@ -569,6 +569,49 @@ ifeq ($(strip $(VIA_ENABLE)), yes)
     OPT_DEFS += -DVIA_ENABLE
 endif
 
+ifeq ($(strip $(VIAL_ENABLE)), yes)
+    QMK_SETTINGS ?= yes
+    TAP_DANCE_ENABLE ?= yes
+    COMBO_ENABLE ?= yes
+    KEY_OVERRIDE_ENABLE ?= yes
+    SRC += $(QUANTUM_DIR)/vial.c
+    EXTRAINCDIRS += $(KEYMAP_OUTPUT)
+    OPT_DEFS += -DVIAL_ENABLE -DNO_DEBUG -DSERIAL_NUMBER=\"vial:f64c2b3c\"
+
+$(QUANTUM_DIR)/vial.c: $(KEYMAP_OUTPUT)/vial_generated_keyboard_definition.h
+
+$(KEYMAP_OUTPUT)/vial_generated_keyboard_definition.h: $(KEYMAP_PATH)/vial.json
+	python3 util/vial_generate_definition.py $(KEYMAP_PATH)/vial.json $(KEYMAP_OUTPUT)/vial_generated_keyboard_definition.h
+endif
+
+ifeq ($(strip $(VIAL_INSECURE)), yes)
+    OPT_DEFS += -DVIAL_INSECURE
+endif
+
+ifeq ($(strip $(VIALRGB_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/vialrgb.c
+    OPT_DEFS += -DVIALRGB_ENABLE
+endif
+
+ifeq ($(strip $(DYNAMIC_KEYMAP_ENABLE)), yes)
+    OPT_DEFS += -DDYNAMIC_KEYMAP_ENABLE
+    SRC += $(QUANTUM_DIR)/dynamic_keymap.c
+endif
+
+ifeq ($(strip $(QMK_SETTINGS)), yes)
+    AUTO_SHIFT_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/qmk_settings.c
+    OPT_DEFS += -DQMK_SETTINGS \
+        -DAUTO_SHIFT_NO_SETUP -DAUTO_SHIFT_REPEAT_PER_KEY -DAUTO_SHIFT_NO_AUTO_REPEAT_PER_KEY \
+        -DTAPPING_TERM_PER_KEY -DPERMISSIVE_HOLD_PER_KEY -DIGNORE_MOD_TAP_INTERRUPT_PER_KEY -DTAPPING_FORCE_HOLD_PER_KEY -DRETRO_TAPPING_PER_KEY \
+        -DCOMBO_TERM_PER_COMBO
+endif
+
+ifeq ($(strip $(DIP_SWITCH_ENABLE)), yes)
+    OPT_DEFS += -DDIP_SWITCH_ENABLE
+    SRC += $(QUANTUM_DIR)/dip_switch.c
+endif
+
 VALID_MAGIC_TYPES := yes
 BOOTMAGIC_ENABLE ?= no
 ifneq ($(strip $(BOOTMAGIC_ENABLE)), no)

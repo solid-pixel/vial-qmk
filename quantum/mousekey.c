@@ -23,6 +23,7 @@
 #include "print.h"
 #include "debug.h"
 #include "mousekey.h"
+#include "qmk_settings.h"
 
 inline int8_t times_inv_sqrt2(int8_t x) {
     // 181/256 is pretty close to 1/sqrt(2)
@@ -75,17 +76,17 @@ uint8_t mk_wheel_time_to_max = MOUSEKEY_WHEEL_TIME_TO_MAX;
 static uint8_t move_unit(void) {
     uint16_t unit;
     if (mousekey_accel & (1 << 0)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed) / 4;
+        unit = (QS_mousekey_move_delta * mk_max_speed) / 4;
     } else if (mousekey_accel & (1 << 1)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed) / 2;
+        unit = (QS_mousekey_move_delta * mk_max_speed) / 2;
     } else if (mousekey_accel & (1 << 2)) {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed);
+        unit = (QS_mousekey_move_delta * mk_max_speed);
     } else if (mousekey_repeat == 0) {
-        unit = MOUSEKEY_MOVE_DELTA;
+        unit = QS_mousekey_move_delta;
     } else if (mousekey_repeat >= mk_time_to_max) {
-        unit = MOUSEKEY_MOVE_DELTA * mk_max_speed;
+        unit = QS_mousekey_move_delta * mk_max_speed;
     } else {
-        unit = (MOUSEKEY_MOVE_DELTA * mk_max_speed * mousekey_repeat) / mk_time_to_max;
+        unit = (QS_mousekey_move_delta * mk_max_speed * mousekey_repeat) / mk_time_to_max;
     }
     return (unit > MOUSEKEY_MOVE_MAX ? MOUSEKEY_MOVE_MAX : (unit == 0 ? 1 : unit));
 }
@@ -281,8 +282,16 @@ void mousekey_on(uint8_t code) {
         mouse_report.h = wheel_unit() * -1;
     else if (code == KC_MS_WH_RIGHT)
         mouse_report.h = wheel_unit();
-    else if (IS_MOUSEKEY_BUTTON(code))
-        mouse_report.buttons |= 1 << (code - KC_MS_BTN1);
+    else if (code == KC_MS_BTN1)
+        mouse_report.buttons |= MOUSE_BTN1;
+    else if (code == KC_MS_BTN2)
+        mouse_report.buttons |= MOUSE_BTN2;
+    else if (code == KC_MS_BTN3)
+        mouse_report.buttons |= MOUSE_BTN3;
+    else if (code == KC_MS_BTN4)
+        mouse_report.buttons |= MOUSE_BTN4;
+    else if (code == KC_MS_BTN5)
+        mouse_report.buttons |= MOUSE_BTN5;
     else if (code == KC_MS_ACCEL0)
         mousekey_accel |= (1 << 0);
     else if (code == KC_MS_ACCEL1)
@@ -308,8 +317,16 @@ void mousekey_off(uint8_t code) {
         mouse_report.h = 0;
     else if (code == KC_MS_WH_RIGHT && mouse_report.h > 0)
         mouse_report.h = 0;
-    else if (IS_MOUSEKEY_BUTTON(code))
-        mouse_report.buttons &= ~(1 << (code - KC_MS_BTN1));
+    else if (code == KC_MS_BTN1)
+        mouse_report.buttons &= ~MOUSE_BTN1;
+    else if (code == KC_MS_BTN2)
+        mouse_report.buttons &= ~MOUSE_BTN2;
+    else if (code == KC_MS_BTN3)
+        mouse_report.buttons &= ~MOUSE_BTN3;
+    else if (code == KC_MS_BTN4)
+        mouse_report.buttons &= ~MOUSE_BTN4;
+    else if (code == KC_MS_BTN5)
+        mouse_report.buttons &= ~MOUSE_BTN5;
     else if (code == KC_MS_ACCEL0)
         mousekey_accel &= ~(1 << 0);
     else if (code == KC_MS_ACCEL1)
@@ -412,8 +429,16 @@ void mousekey_on(uint8_t code) {
         mouse_report.h = w_offset * -1;
     else if (code == KC_MS_WH_RIGHT)
         mouse_report.h = w_offset;
-    else if (IS_MOUSEKEY_BUTTON(code))
-        mouse_report.buttons |= 1 << (code - KC_MS_BTN1);
+    else if (code == KC_MS_BTN1)
+        mouse_report.buttons |= MOUSE_BTN1;
+    else if (code == KC_MS_BTN2)
+        mouse_report.buttons |= MOUSE_BTN2;
+    else if (code == KC_MS_BTN3)
+        mouse_report.buttons |= MOUSE_BTN3;
+    else if (code == KC_MS_BTN4)
+        mouse_report.buttons |= MOUSE_BTN4;
+    else if (code == KC_MS_BTN5)
+        mouse_report.buttons |= MOUSE_BTN5;
     else if (code == KC_MS_ACCEL0)
         mk_speed = mkspd_0;
     else if (code == KC_MS_ACCEL1)
@@ -443,8 +468,16 @@ void mousekey_off(uint8_t code) {
         mouse_report.h = 0;
     else if (code == KC_MS_WH_RIGHT && mouse_report.h > 0)
         mouse_report.h = 0;
-    else if (IS_MOUSEKEY_BUTTON(code))
-        mouse_report.buttons &= ~(1 << (code - KC_MS_BTN1));
+    else if (code == KC_MS_BTN1)
+        mouse_report.buttons &= ~MOUSE_BTN1;
+    else if (code == KC_MS_BTN2)
+        mouse_report.buttons &= ~MOUSE_BTN2;
+    else if (code == KC_MS_BTN3)
+        mouse_report.buttons &= ~MOUSE_BTN3;
+    else if (code == KC_MS_BTN4)
+        mouse_report.buttons &= ~MOUSE_BTN4;
+    else if (code == KC_MS_BTN5)
+        mouse_report.buttons &= ~MOUSE_BTN5;
 #    ifdef MK_MOMENTARY_ACCEL
     else if (code == KC_MS_ACCEL0)
         mk_speed = mkspd_DEFAULT;

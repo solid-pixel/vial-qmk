@@ -90,7 +90,7 @@ static inline void process_tap_dance_action_on_each_tap(qk_tap_dance_action_t *a
     _process_tap_dance_action_fn(&action->state, action->user_data, action->fn.on_each_tap);
 }
 
-static inline void process_tap_dance_action_on_dance_finished(qk_tap_dance_action_t *action) {
+void process_tap_dance_action_on_dance_finished(qk_tap_dance_action_t *action) {
     if (action->state.finished) return;
     action->state.finished = true;
     add_mods(action->state.oneshot_mods);

@@ -1,7 +1,12 @@
 {
     "keyboard_name": "The Key V2",
+<<<<<<< HEAD
     "url": "https://drop.com/buy/stack-overflow-the-key-v2-macropad",
     "maintainer": "massdrop",
+=======
+    "url": "https://drop.com/buy/stack-overflow-the-key-v2-macropad/",
+    "maintainer": "MallardDuck",
+>>>>>>> vial-pelly/vial
     "layouts": {
         "LAYOUT": {
             "layout": [
